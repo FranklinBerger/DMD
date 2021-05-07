@@ -42,10 +42,11 @@ DMD::DMD(byte panelsWide, byte panelsHigh)
     bDMDScreenRAM = (byte *) malloc(DisplaysTotal*DMD_RAM_SIZE_BYTES);
 
     // initialize the SPI port
-    SPI.begin();		// probably don't need this since it inits the port pins only, which we do just below with the appropriate DMD interface setup
-    SPI.setBitOrder(MSBFIRST);	//
-    SPI.setDataMode(SPI_MODE0);	// CPOL=0, CPHA=0
-    SPI.setClockDivider(SPI_CLOCK_DIV4);	// system clock / 4 = 4MHz SPI CLK to shift registers. If using a short cable, can put SPI_CLOCK_DIV2 here for 2x faster updates
+    dmd_spi_object = new SPIClass(VSPI);		// probably don't need this since it inits the port pins only, which we do just below with the appropriate DMD interface setup
+	dmd_spi_object->begin();
+    dmd_spi_object->setBitOrder(MSBFIRST);	//
+    dmd_spi_object->setDataMode(SPI_MODE0);	// CPOL=0, CPHA=0
+    dmd_spi_object->setClockFrequency(DMD_SPI_SPEED);	// system clock / 4 = 4MHz SPI CLK to shift registers. If using a short cable, can put SPI_CLOCK_DIV2 here for 2x faster updates
 
     digitalWrite(PIN_DMD_A, LOW);	// 
     digitalWrite(PIN_DMD_B, LOW);	// 
@@ -425,10 +426,10 @@ void DMD::scanDisplayBySPI()
         int rowsize=DisplaysTotal<<2;
         int offset=rowsize * bDMDByte;
         for (int i=0;i<rowsize;i++) {
-            SPI.transfer(bDMDScreenRAM[offset+i+row3]);
-            SPI.transfer(bDMDScreenRAM[offset+i+row2]);
-            SPI.transfer(bDMDScreenRAM[offset+i+row1]);
-            SPI.transfer(bDMDScreenRAM[offset+i]);
+            dmd_spi_object.transfer(bDMDScreenRAM[offset+i+row3]);
+            dmd_spi_object.transfer(bDMDScreenRAM[offset+i+row2]);
+            dmd_spi_object.transfer(bDMDScreenRAM[offset+i+row1]);
+            dmd_spi_object.transfer(bDMDScreenRAM[offset+i]);
         }
 
         OE_DMD_ROWS_OFF();

@@ -87,6 +87,12 @@ LED Panel Layout in RAM
 #define OE_DMD_ROWS_OFF()                 { digitalWrite( PIN_DMD_nOE, LOW  ); }
 #define OE_DMD_ROWS_ON()                  { digitalWrite( PIN_DMD_nOE, HIGH ); }
 
+// DMD SPI Transfert speed
+#define DMD_SPI_SPEED 4000000; // 4 MHz
+
+// Defining pointers to SPI object, NULL for now
+SPIClass * dmd_spi_object = NULL;
+
 //Pixel/graphics writing modes (bGraphicsMode)
 #define GRAPHICS_NORMAL    0
 #define GRAPHICS_INVERSE   1
