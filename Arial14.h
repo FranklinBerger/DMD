@@ -37,7 +37,7 @@
  */
 
 #include <inttypes.h>
-#include <avr/pgmspace.h>
+#include <esp32/pgmspace.h>
 
 #ifndef ARIAL_14_H
 #define ARIAL_14_H
