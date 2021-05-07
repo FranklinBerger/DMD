@@ -44,19 +44,34 @@ LED Panel Layout in RAM
 
 //SPI library must be included for the SPI scanning/connection method to the DMD
 #include "pins_arduino.h"
-#include <avr/pgmspace.h>
+#include <esp32/pgmspace.h>
 #include <SPI.h>
 
 // ######################################################################################################################
 // ######################################################################################################################
-#warning CHANGE THESE TO SEMI-ADJUSTABLE PIN DEFS!
-//Arduino pins used for the display connection
-#define PIN_DMD_nOE       9    // D9 active low Output Enable, setting this low lights all the LEDs in the selected rows. Can pwm it at very high frequency for brightness control.
-#define PIN_DMD_A         6    // D6
-#define PIN_DMD_B         7    // D7
-#define PIN_DMD_CLK       13   // D13_SCK  is SPI Clock if SPI is used
-#define PIN_DMD_SCLK      8    // D8
-#define PIN_DMD_R_DATA    11   // D11_MOSI is SPI Master Out if SPI is used
+#warning DMD419: PLEASE USE VSPI PINS FOR COMMUNICATION => 18:CLK    23:R (MOSI)
+//ESP32 pins used for the display connection => Using VSPI
+// CS = 5 ; CLK = 18 ; Miso = 19 ; Mosi = 23 ; QUADWP = 22 ; QUADHD = 21
+#define PIN_DMD_CLK       18   // D13_SCK  is SPI Clock if SPI is used
+#define PIN_DMD_R_DATA    23   // D23_MOSI is SPI Master Out if SPI is used
+#ifndef PIN_DMD_nOE
+	#error DMD419: PLESE DEFINE PIN_DMD_nOE FOR THE LIBRARY TO WORK PROPERLY
+	//#define PIN_DMD_nOE       0    // *To be defined* active low Output Enable, setting this low lights all the LEDs in the selected rows. Can pwm it at very high frequency for brightness control.
+#endif
+#ifndef PIN_DMD_A
+	#error DMD419: PLESE DEFINE PIN_DMD_A FOR THE LIBRARY TO WORK PROPERLY
+	//#define PIN_DMD_A         0    // *To be defined*
+#endif
+#ifndef PIN_DMD_B
+	#error DMD419: PLESE DEFINE PIN_DMD_B FOR THE LIBRARY TO WORK PROPERLY
+	//#define PIN_DMD_B         0    // *To be defined*
+#endif
+#ifndef PIN_DMD_SCLK
+	#error DMD419: PLESE DEFINE PIN_DMD_SCLK FOR THE LIBRARY TO WORK PROPERLY
+	//#define PIN_DMD_SCLK      0    // *To be defined*
+#endif
+
+
 //Define this chip select pin that the Ethernet W5100 IC or other SPI device uses
 //if it is in use during a DMD scan request then scanDisplayBySPI() will exit without conflict! (and skip that scan)
 #define PIN_OTHER_SPI_nCS 10
