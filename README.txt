@@ -9,7 +9,7 @@ Email: info (at) freetronics.com
 URL:   http://www.freetronics.com/dmd-library
 
 A library for driving the Freetronics 512 pixel dot matrix LED display "DMD", a 32 x 16 layout.
-Modified to be supported on ESP32-Based board
+** Modified to be supported on ESP32-Based board and use VMA419 module (please consider those two parameters: microcontroler and module)**
 /!\ Brutely made, please consider to redo it beter if you have time/energy to do it so /!\
 => Need to be done by considering a defined made by the framework, and so self-modifying the
 code to be able to self-adapt to every microcontroler
